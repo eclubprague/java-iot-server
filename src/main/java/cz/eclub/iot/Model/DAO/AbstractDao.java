@@ -1,7 +1,7 @@
-package cz.eclub.iot.Model.DAO;
+package cz.eclub.iot.model.DAO;
 
-import cz.eclub.iot.Model.DbUtils;
-import cz.eclub.iot.Model.classes.AbstractEntity;
+import cz.eclub.iot.model.DbUtils;
+import cz.eclub.iot.model.classes.AbstractEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;

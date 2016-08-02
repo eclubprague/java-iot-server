@@ -1,4 +1,4 @@
-package cz.eclub.iot.Model.classes;
+package cz.eclub.iot.model.classes;
 
 import org.hibernate.annotations.GenericGenerator;
 

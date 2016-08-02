@@ -1,4 +1,4 @@
-package cz.eclub.iot.Model;
+package cz.eclub.iot.model;
 
 
 import javax.persistence.EntityManager;

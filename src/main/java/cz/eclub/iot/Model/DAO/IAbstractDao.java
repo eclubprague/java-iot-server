@@ -1,6 +1,6 @@
-package cz.eclub.iot.Model.DAO;
+package cz.eclub.iot.model.DAO;
 
-import cz.eclub.iot.Model.classes.AbstractEntity;
+import cz.eclub.iot.model.classes.AbstractEntity;
 import java.util.Collection;
 
 public interface IAbstractDao<T extends AbstractEntity> {
