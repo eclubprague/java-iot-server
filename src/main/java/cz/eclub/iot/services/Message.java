@@ -21,7 +21,5 @@ public class Message {
             return Response.status(200).build();
         }
         return Response.status(Response.Status.FORBIDDEN).build();
-
-
     }
 }
