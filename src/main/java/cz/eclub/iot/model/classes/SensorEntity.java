@@ -5,14 +5,16 @@ import javax.persistence.Entity;
 @Entity
 public class SensorEntity extends AbstractEntity {
     private String UUID,value,unitName,unitSign;
+    private long timestamp;
 
     public SensorEntity(){};
 
-    public SensorEntity(String UUID, String value, String unitName, String unitSign) {
+    public SensorEntity(String UUID, String value, String unitName, String unitSign,long timestamp) {
         this.UUID=UUID;
         this.value=value;
         this.unitName=unitName;
         this.unitSign=unitSign;
+        this.timestamp=timestamp;
     }
 
     public String getUUID() {
@@ -54,6 +56,7 @@ public class SensorEntity extends AbstractEntity {
                 ", value='" + value + '\'' +
                 ", unitName='" + unitName + '\'' +
                 ", unitSign='" + unitSign + '\'' +
+                ", timestamp=" + timestamp +
                 '}';
     }
 }

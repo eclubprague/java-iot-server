@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-@Path("message")
+@Path("sensor")
 public class Sensor {
     private SensorDao sensorDao = new SensorDao();
 
@@ -20,7 +20,7 @@ public class Sensor {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerHub(SensorEntity sensor) {
+    public Response newSensorRecord(SensorEntity sensor) {
         if (sensorDao.addNew(sensor)) {
             return Response.status(200).build();
         }
