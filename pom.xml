@@ -78,9 +78,15 @@
             <version>1.4.6</version>
         </dependency>
 
-    </dependencies>
-    <properties>
-        <jersey.version>2.23.1</jersey.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-</project>
+        <!-- <dependency>
+             <groupId>com.palominolabs.jersey</groupId>
+             <artifactId>jersey-cors-filter</artifactId>
+             <version>1.0.2</version>
+         </dependency>-->
+
+     </dependencies>
+     <properties>
+         <jersey.version>2.23.1</jersey.version>
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     </properties>
+ </project>

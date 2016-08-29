@@ -21,6 +21,7 @@ public class Sensor {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newSensorRecord(SensorEntity sensor) {
+        System.out.println(sensor);
         if (sensorDao.addNew(sensor)) {
             return Response.status(200).build();
         }
@@ -47,9 +48,27 @@ public class Sensor {
      * @return
      */
     @GET
+    @Path("{UUID}/{LIMIT}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<SensorEntity> getSensorById(@PathParam("UUID") String uuid, @PathParam("LIMIT") String limit) {
+
+        Integer limitResults = Integer.parseInt(limit);
+
+        ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getByUUIDLimit(uuid, limitResults);
+        return list;
+    }
+
+    /**
+     * returns records for sensor specified by uuid
+     *
+     * @param uuid
+     * @return
+     */
+    @GET
     @Path("{UUID}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<SensorEntity> getSensorById(@PathParam("UUID") String uuid) {
+
         ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getByUUID(uuid);
         return list;
     }
