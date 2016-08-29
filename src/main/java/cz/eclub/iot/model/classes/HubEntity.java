@@ -2,9 +2,6 @@ package cz.eclub.iot.model.classes;
 
 import javax.persistence.Entity;
 
-/**
- * Created by Tom on 02.08.2016.
- */
 @Entity
 public class HubEntity extends AbstractEntity{
     private long uuid;
