@@ -8,9 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
-/**
- * Created by miken on 01.07.2016.
- */
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
     protected int id;
@@ -27,5 +24,5 @@ public abstract class AbstractEntity implements Serializable {
         this.id = id;
     }
 
-
 }
+
