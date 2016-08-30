@@ -81,9 +81,9 @@ public class Sensor {
     @GET
     @Path("registered")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<String> getRegistered() {
+    public ArrayList<SensorEntity> getRegistered() {
 
-        ArrayList<String> list = (ArrayList<String>) sensorDao.getAllUUIDs();
+        ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getAllUUIDs();
         return list;
     }
 }
