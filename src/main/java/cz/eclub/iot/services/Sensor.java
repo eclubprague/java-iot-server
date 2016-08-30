@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 @Path("sensor")
 public class Sensor {
@@ -70,6 +71,19 @@ public class Sensor {
     public ArrayList<SensorEntity> getSensorById(@PathParam("UUID") String uuid) {
 
         ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getByUUID(uuid);
+        return list;
+    }
+
+    /**
+     * get uuids for all registered sensors
+     * @return
+     */
+    @GET
+    @Path("registered")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<String> getRegistered() {
+
+        ArrayList<String> list = (ArrayList<String>) sensorDao.getAllUUIDs();
         return list;
     }
 }

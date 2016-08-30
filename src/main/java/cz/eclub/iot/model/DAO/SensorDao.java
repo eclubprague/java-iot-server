@@ -25,4 +25,11 @@ public class SensorDao extends AbstractDao<SensorEntity> {
         closeEntityManager();
         return result;
     }
+
+    public Collection<String> getAllUUIDs() {
+        Query q = getEntityManager().createQuery("select s._UUID from SensorEntity as s group by s._UUID");
+        List result = q.getResultList();
+        closeEntityManager();
+        return result;
+    }
 }
