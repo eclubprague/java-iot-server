@@ -10,12 +10,13 @@ import java.io.Serializable;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
-    protected int id;
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    protected int id;
+
     public int getId() {
         return id;
     }

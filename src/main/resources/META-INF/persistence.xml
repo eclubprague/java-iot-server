@@ -9,6 +9,8 @@
         <class>cz.eclub.iot.model.classes.MessageEntity</class>
         <class>cz.eclub.iot.model.classes.SensorEntity</class>
         <class>cz.eclub.iot.model.classes.SensorEntryEntity</class>
+        <class>cz.eclub.iot.model.classes.APIKeysEntity</class>
+        <class>cz.eclub.iot.model.classes.UserEntity</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>

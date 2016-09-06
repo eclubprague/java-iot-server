@@ -1,34 +1,33 @@
 package cz.eclub.iot.model.classes;
 
-import javax.persistence.Entity;
+import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
+@Table(name = "HUB")
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class HubEntity extends AbstractEntity{
-    private long uuid;
+
+    @Basic
+    @Column(name="uuid")
+    private String uuid;
+
+    @Basic
+    @Column(name="name")
     private String name;
+
+    @Basic
+    @Column(name="location")
     private String location;
 
-    public String getName() {
-        return name;
-    }
+    @ManyToOne
+    @JoinColumn(name = "userID", referencedColumnName = "ID", nullable = false)
+    private UserEntity owner;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public long getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(long uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 }

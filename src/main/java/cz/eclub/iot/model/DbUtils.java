@@ -12,9 +12,11 @@ public enum DbUtils {
     private EntityManager em;
     private EntityManagerFactory emf;
 
+
     private EntityManagerFactory createEntityManagerFactory() {
         emf = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db");
         em = emf.createEntityManager();
+        System.out.println("CREATED!!");
         return emf;
     }
 
