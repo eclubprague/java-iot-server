@@ -23,11 +23,26 @@ public class SensorService {
     }
 
     @GET
-    @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public ArrayList<SensorEntity> getAllSensors() {
         ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getAll();
         return list;
+    }
+
+    @DELETE
+    @Path("{UUID}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response removeSensor(@PathParam("UUID") String uuid) {
+        SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
+        if(sensorEntity != null) {
+            if(sensorDao.delete(sensorEntity)) {
+                return Response.status(200).build();
+            }else {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+        }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @GET
