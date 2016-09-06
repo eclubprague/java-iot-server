@@ -36,19 +36,33 @@ public class SensorEntryService {
         if (sensor != null) {
             sensorEntry.setSensor(sensor);
             sensorEntryDao.addNew(sensorEntry);
+            return Response.ok().build();
         }
         return Response.status(Response.Status.FORBIDDEN).build();
     }
 
-    @POST
-    @Path("getByUnit/{unit}/{limit}")
+    @GET
+    @Path("{uuid}/{limit}/{unit}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Collection<SensorEntryEntity> getByUnit(@PathParam("unit") String unit, @PathParam("limit") String limit) {
+    public Collection<SensorEntryEntity> getByUnit(@PathParam("uuid") String uuid, @PathParam("limit") String limit, @PathParam("unit") String unit) {
+        System.out.println(uuid);
         System.out.println(unit);
         System.out.println(limit);
 
         Integer limitResults = Integer.parseInt(limit);
-        Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByUUIDLimit(unit, limitResults);
+        Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByUUIDLimit(uuid, unit, limitResults);
+        return sensorEntryCollection;
+    }
+
+    @GET
+    @Path("{uuid}/{limit}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Collection<SensorEntryEntity> getByUnit(@PathParam("uuid") String uuid, @PathParam("limit") String limit) {
+        System.out.println(uuid);
+        System.out.println(limit);
+
+        Integer limitResults = Integer.parseInt(limit);
+        Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByUUIDLimit(uuid, limitResults);
         return sensorEntryCollection;
     }
 
