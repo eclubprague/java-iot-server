@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Path("sensor")
+@Path("sensor_entry")
 public class SensorEntryService {
     private SensorEntryDao sensorEntryDao = new SensorEntryDao();
     private SensorDao sensorDao = new SensorDao();
