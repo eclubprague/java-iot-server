@@ -30,6 +30,23 @@ public class Sensor {
     }
 
     /**
+     * Consumes sensor entity and saves it into DB
+     *
+     * @param sensor
+     * @return
+     */
+    @POST
+    @Path("new")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newSensor(SensorEntity sensor) {
+        System.out.println(sensor);
+        if (sensorDao.addNew(sensor)) {
+            return Response.status(200).build();
+        }
+        return Response.status(Response.Status.FORBIDDEN).build();
+    }
+
+    /**
      * returns records for all sensors
      *
      * @return

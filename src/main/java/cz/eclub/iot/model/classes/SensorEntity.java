@@ -12,6 +12,7 @@ import java.util.Collection;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class SensorEntity extends AbstractEntity {
 
     @Basic
