@@ -1,5 +1,6 @@
 package cz.eclub.iot.model.classes;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,18 +16,26 @@ import java.util.Date;
 public class SensorEntryEntity extends AbstractEntity {
 
     @Basic
-    @Column(name="value")
+    @Column(name = "value")
     private String value;
 
     @Basic
-    @Column(name="unit")
+    @Column(name = "unit")
     private String unit;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="dtCreated")
-    private Date dtCreated;
+    @Column(name = "timestamp")
+    private long timestamp;
 
     @ManyToOne
     @JoinColumn(name = "sensorID", referencedColumnName = "ID", nullable = false)
     private SensorEntity sensor;
+
+    @Override
+    public String toString() {
+        return "SensorEntryEntity{" +
+                "value='" + value + '\'' +
+                ", unit='" + unit + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

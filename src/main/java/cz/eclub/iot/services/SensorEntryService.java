@@ -8,8 +8,7 @@ import cz.eclub.iot.model.classes.SensorEntryEntity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 @Path("sensor_entry")
 public class SensorEntryService {
@@ -62,6 +61,9 @@ public class SensorEntryService {
 
         Integer limitResults = Integer.parseInt(limit);
         Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByUUIDLimit(uuid, limitResults);
+
+        System.out.println(sensorEntryCollection);
+
         return sensorEntryCollection;
     }
 

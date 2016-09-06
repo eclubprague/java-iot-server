@@ -13,7 +13,6 @@ public class SensorService {
     private SensorDao sensorDao = new SensorDao();
 
     @POST
-    @Path("new")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newSensor(SensorEntity sensor) {
         System.out.println(sensor);
