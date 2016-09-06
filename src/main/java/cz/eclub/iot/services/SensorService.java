@@ -29,6 +29,7 @@ public class SensorService {
         return list;
     }
 
+    /*
     @DELETE
     @Path("{UUID}")
     @Produces({MediaType.APPLICATION_JSON})
@@ -44,6 +45,7 @@ public class SensorService {
 
         return Response.status(Response.Status.FORBIDDEN).build();
     }
+    */
 
     @GET
     @Path("{UUID}/{LIMIT}")
