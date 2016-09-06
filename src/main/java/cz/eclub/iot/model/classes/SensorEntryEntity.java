@@ -3,6 +3,7 @@ package cz.eclub.iot.model.classes;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 @EqualsAndHashCode(callSuper = true)
@@ -10,6 +11,9 @@ import javax.persistence.Entity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SensorEntity extends AbstractEntity {
+public class SensorEntryEntity extends AbstractEntity {
     private String _UUID, description, location;
+
+    @ManyToOne
+    private SensorEntity sensor;
 }
