@@ -27,15 +27,14 @@ public class SensorEntryService {
     @POST
     @Path("{UUID}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newSensor(@PathParam("UUID") String uuid, SensorEntryEntity sensorEntry) {
-        System.out.println(uuid);
-        System.out.println(sensorEntry);
-
+    public Response newSensor(@PathParam("UUID") String uuid, Collection<SensorEntryEntity> sensorEntryCollection) {
         SensorEntity sensor = sensorDao.getByUUID(uuid);
 
         if (sensor != null) {
-            sensorEntry.setSensor(sensor);
-            sensorEntryDao.addNew(sensorEntry);
+            for (SensorEntryEntity sensorEntry : sensorEntryCollection){
+                sensorEntry.setSensor(sensor);
+                sensorEntryDao.addNew(sensorEntry);
+            }
             return Response.ok().build();
         }
         return Response.status(Response.Status.FORBIDDEN).build();
