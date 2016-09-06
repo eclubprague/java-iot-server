@@ -6,7 +6,6 @@
     <persistence-unit name="cz.eclub.iot.server.db">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>cz.eclub.iot.model.classes.HubEntity</class>
-        <class>cz.eclub.iot.model.classes.MessageEntity</class>
         <class>cz.eclub.iot.model.classes.SensorEntity</class>
         <class>cz.eclub.iot.model.classes.SensorEntryEntity</class>
         <class>cz.eclub.iot.model.classes.APIKeysEntity</class>

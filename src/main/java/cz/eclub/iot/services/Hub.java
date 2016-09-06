@@ -2,7 +2,6 @@ package cz.eclub.iot.services;
 
 import cz.eclub.iot.model.DAO.HubDao;
 import cz.eclub.iot.model.classes.HubEntity;
-import cz.eclub.iot.model.classes.MessageEntity;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,13 +11,6 @@ import java.util.ArrayList;
 @Path("hub")
 public class Hub {
     private HubDao hubDao = new HubDao();
-
-    @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public MessageEntity getHubById(@PathParam("id") String id) {
-        return new MessageEntity(id);
-    }
 
     @GET
     @Path("connected")
