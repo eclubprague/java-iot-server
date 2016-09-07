@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 public class Utils {
     public static String escape(String s){
-        return StringEscapeUtils.escapeHtml4(s);
+        return s;
+        //return StringEscapeUtils.escapeHtml4(s);
     }
 }
