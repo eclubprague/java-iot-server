@@ -3,6 +3,8 @@ package cz.eclub.iot.model.classes;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Collection;
 
 @Entity
@@ -27,7 +29,7 @@ public class SensorEntity extends AbstractEntity {
     @Column(name="location")
     private String location;
 
-    @OneToMany(mappedBy = "sensor")
+    @OneToMany(mappedBy = "sensor", cascade=CascadeType.REMOVE)
     private Collection<SensorEntryEntity> sensorEntries;
 
 }
