@@ -17,10 +17,14 @@
             <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
             <param-value>cz.eclub.iot.utils.CORSResponseFilter</param-value>
         </init-param>
+
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
     </servlet-mapping>
+    <listener>
+        <listener-class>cz.eclub.iot.MyAppServletContextListener</listener-class>
+    </listener>
 </web-app>
