@@ -4,11 +4,13 @@ import cz.eclub.iot.model.DAO.SensorDao;
 import cz.eclub.iot.model.DAO.SensorEntryDao;
 import cz.eclub.iot.model.classes.SensorEntity;
 import cz.eclub.iot.model.classes.SensorEntryEntity;
+import cz.eclub.iot.utils.Utils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Path("sensor_entry")
 public class SensorEntryService {
@@ -29,8 +31,11 @@ public class SensorEntryService {
     public Response newSensor(@PathParam("UUID") String uuid, Collection<SensorEntryEntity> sensorEntryCollection) {
         SensorEntity sensor = sensorDao.getByUUID(uuid);
 
+
         if (sensor != null) {
-            for (SensorEntryEntity sensorEntry : sensorEntryCollection){
+            for (SensorEntryEntity sensorEntry : sensorEntryCollection) {
+                sensorEntry.setUnit(Utils.escape(sensorEntry.getUnit()));
+                sensorEntry.setValue(Utils.escape(sensorEntry.getValue()));
                 sensorEntry.setSensor(sensor);
                 sensorEntryDao.addNew(sensorEntry);
             }
