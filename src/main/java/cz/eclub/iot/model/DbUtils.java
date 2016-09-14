@@ -27,7 +27,9 @@ public enum DbUtils {
     }
 
     public void closeEntityManagerFactory() {
-        if (emf.isOpen()) emf.close();
+        if(emf != null) {
+            if (emf.isOpen()) emf.close();
+        }
     }
 
 

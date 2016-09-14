@@ -1,6 +1,8 @@
 package cz.eclub.iot.model.classes;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -29,7 +31,8 @@ public class SensorEntity extends AbstractEntity {
     @Column(name="location")
     private String location;
 
-    @OneToMany(mappedBy = "sensor", cascade=CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", orphanRemoval=true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<SensorEntryEntity> sensorEntries;
 
 }

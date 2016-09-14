@@ -9,10 +9,10 @@ import java.io.IOException;
 public class CORSResponseFilter implements ContainerResponseFilter {
     @Override
     public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
-        MultivaluedMap<String, Object> headers = containerResponseContext.getHeaders();
 
-        headers.add("Access-Control-Allow-Origin", "*");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-        headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
+        containerResponseContext.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
+        containerResponseContext.getHeaders().putSingle("Access-Control-Allow-Credentials", "true");
+        containerResponseContext.getHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+        containerResponseContext.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Accept");
     }
 }

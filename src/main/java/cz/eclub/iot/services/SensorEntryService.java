@@ -11,6 +11,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Path("sensor_entry")
 public class SensorEntryService {
@@ -18,7 +20,6 @@ public class SensorEntryService {
     private SensorDao sensorDao = new SensorDao();
 
     @GET
-    @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public ArrayList<SensorEntryEntity> getAllSensors() {
         ArrayList<SensorEntryEntity> list = (ArrayList<SensorEntryEntity>) sensorEntryDao.getAll();
@@ -29,9 +30,9 @@ public class SensorEntryService {
     @Path("{UUID}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newSensor(@PathParam("UUID") String uuid, Collection<SensorEntryEntity> sensorEntryCollection) {
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Recieved message: "+uuid+"!");
+
         SensorEntity sensor = sensorDao.getByUUID(uuid);
-
-
         if (sensor != null) {
             for (SensorEntryEntity sensorEntry : sensorEntryCollection) {
                 sensorEntry.setUnit(Utils.escape(sensorEntry.getUnit()));
