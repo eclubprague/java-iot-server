@@ -32,7 +32,8 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     protected void closeEntityManager() {
         if (entityManager != null && entityManager.isOpen()) {
-            entityManager.flush();
+            if(entityManager.getTransaction() != null)
+                entityManager.flush();
             entityManager.close();
         }
     }
@@ -59,7 +60,6 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
         CriteriaQuery q = getEntityManager().getCriteriaBuilder().createQuery(persistentClass);
         Root<T> abstractRoot = q.from(persistentClass);
         q.select(abstractRoot);
-
         Collection<T> collection = getEntityManager().createQuery(q).getResultList();
         closeEntityManager();
         return collection;
