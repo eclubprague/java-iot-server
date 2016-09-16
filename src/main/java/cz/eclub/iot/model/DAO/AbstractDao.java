@@ -32,8 +32,9 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     protected void closeEntityManager() {
         if (entityManager != null && entityManager.isOpen()) {
-            if(entityManager.getTransaction() != null)
+            if(entityManager.getTransaction() != null && entityManager.getTransaction().isActive()) {
                 entityManager.flush();
+            }
             entityManager.close();
         }
     }
