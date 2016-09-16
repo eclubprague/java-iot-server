@@ -3,7 +3,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 
-    <persistence-unit name="cz.eclub.iot.server.db">
+    <persistence-unit name="cz.eclub.iot.server.db.hibernate">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>cz.eclub.iot.model.classes.HubEntity</class>
         <class>cz.eclub.iot.model.classes.SensorEntity</class>
@@ -30,8 +30,8 @@
             <property name="maxStatements" value="50"/>
             <property name="idleConnectionTestPeriod" value="3000"/>
             <property name="loginTimeout" value="300"/>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
             <property name="hibernate.connection.CharSet" value="utf8"/>
             <property name="hibernate.connection.characterEncoding" value="utf8"/>
             <property name="hibernate.connection.useUnicode" value="utf8"/>

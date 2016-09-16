@@ -14,7 +14,7 @@ public enum DbUtils {
 
 
     private EntityManagerFactory createEntityManagerFactory() {
-        emf = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db");
+        emf = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db.hibernate");
         em = emf.createEntityManager();
         System.out.println("CREATED!!");
         return emf;
