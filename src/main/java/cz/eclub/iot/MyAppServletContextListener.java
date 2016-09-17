@@ -8,7 +8,7 @@ import javax.servlet.ServletContextListener;
 public class MyAppServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        DbUtils.getInstance().getSessionFactory();
+        DbUtils.getInstance().getEntityManager();
     }
 
     @Override

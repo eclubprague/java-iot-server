@@ -10,7 +10,7 @@ import java.util.List;
 
 public class HubDao extends AbstractDao<HubEntity> {
     public Collection<HubEntity> getAllHubs() {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         Query q = entityManager.createQuery("select h from HubEntity as h");
         List result = q.getResultList();
         entityManager.close();

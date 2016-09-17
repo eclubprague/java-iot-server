@@ -12,7 +12,7 @@ public class SensorDao extends AbstractDao<SensorEntity> {
 
 
     public SensorEntity getByUUID(String uuid) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         Query q = entityManager.createQuery("select s from SensorEntity as s where s._UUID=:uuid");
         q.setParameter("uuid", uuid);
         List result = q.getResultList();
@@ -24,7 +24,7 @@ public class SensorDao extends AbstractDao<SensorEntity> {
     }
 
     public Collection<SensorEntity> getByUUIDLimit(String uuid, int limit) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         Query q = entityManager.createQuery("select s from SensorEntity as s where s._UUID=:uuid");
         q.setParameter("uuid", uuid);
         if (limit > 0) // <-- to se mi nelibi

@@ -27,7 +27,7 @@ public class SensorService {
             sensorDao.addNew(sensor);
             return Response.status(Response.Status.CREATED).entity(sensor).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 

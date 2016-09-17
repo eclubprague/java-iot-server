@@ -17,7 +17,7 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
     protected Class<T> persistentClass;
 
     public AbstractDao() {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         entityManager.getEntityManagerFactory().getCache().evictAll();
         persistentClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
@@ -25,17 +25,16 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     @Override
     public void addNew(T entity) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
-        entityManager.close();
-
+        //entityManager.close();
     }
 
     @Override
     public Collection<T> getAll() {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         CriteriaQuery q = entityManager.getCriteriaBuilder().createQuery(persistentClass);
         Root<T> abstractRoot = q.from(persistentClass);
         q.select(abstractRoot);
@@ -46,7 +45,7 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     @Override
     public boolean exists(T entity) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         CriteriaQuery q = entityManager.getCriteriaBuilder().createQuery(persistentClass);
         Root<T> abstractRoot = q.from(persistentClass);
         q.select(abstractRoot);
@@ -60,7 +59,7 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     @Override
     public T getById(int id) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         CriteriaQuery q = entityManager.getCriteriaBuilder().createQuery(persistentClass);
         Root<T> abstractRoot = q.from(persistentClass);
         q.select(abstractRoot);
@@ -75,7 +74,7 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     @Override
     public void update(T entity) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         entityManager.getTransaction().begin();
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
@@ -84,7 +83,7 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
 
     @Override
     public void delete(T entity) {
-        EntityManager entityManager = DbUtils.getInstance().getSessionFactory().createEntityManager();
+        EntityManager entityManager = DbUtils.getInstance().getEntityManager();
         entityManager.getTransaction().begin();
         entityManager.remove(entity);
         entityManager.getTransaction().commit();
