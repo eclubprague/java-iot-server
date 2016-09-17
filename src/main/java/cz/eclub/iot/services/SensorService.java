@@ -3,12 +3,12 @@ package cz.eclub.iot.services;
 import cz.eclub.iot.model.DAO.SensorDao;
 import cz.eclub.iot.model.classes.SensorEntity;
 import cz.eclub.iot.utils.Utils;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
+import java.util.Collection;
 
 @Path("sensor")
 public class SensorService {
@@ -23,17 +23,25 @@ public class SensorService {
         sensor.setDescription(Utils.escape(sensor.getDescription()));
         sensor.setLocation(Utils.escape(sensor.getLocation()));
 
-        if (sensorDao.addNew(sensor)) {
-            return Response.status(200).build();
+        try {
+            sensorDao.addNew(sensor);
+            return Response.status(Response.Status.CREATED).entity(sensor).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public ArrayList<SensorEntity> getAllSensors() {
-        ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getAll();
-        return list;
+    public Response getAllSensors() {
+        try {
+            Collection<SensorEntity> list = sensorDao.getAll();
+            GenericEntity<Collection<SensorEntity>> entity = new GenericEntity<Collection<SensorEntity>>(list) {
+            };
+            return Response.status(Response.Status.OK).entity(entity).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
     }
 
 
@@ -42,23 +50,37 @@ public class SensorService {
     @Produces({MediaType.APPLICATION_JSON})
     public Response removeSensor(@PathParam("UUID") String uuid) {
         SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-        if(sensorEntity != null) {
-            if(sensorDao.delete(sensorEntity)) {
-                return Response.status(200).build();
-            }else {
-                return Response.status(Response.Status.BAD_REQUEST).build();
+        if (sensorEntity != null) { // <-- toto se mi nelibi
+            try {
+                sensorDao.delete(sensorEntity);
+                return Response.status(Response.Status.OK).build();
+            } catch (Exception e) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
             }
         }
-        return Response.status(Response.Status.BAD_REQUEST).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
+
     }
 
     @GET
     @Path("{UUID}/{LIMIT}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<SensorEntity> getSensorById(@PathParam("UUID") String uuid, @PathParam("LIMIT") String limit) {
-        Integer limitResults = Integer.parseInt(limit);
-        ArrayList<SensorEntity> list = (ArrayList<SensorEntity>) sensorDao.getByUUIDLimit(uuid, limitResults);
-        return list;
+    public Response getSensorById(@PathParam("UUID") String uuid, @PathParam("LIMIT") String limit) {
+        SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
+        if (sensorEntity == null) { // <-- toto se mi nelibi
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        try {
+            Integer limitResults = Integer.parseInt(limit);
+            Collection<SensorEntity> list = sensorDao.getByUUIDLimit(uuid, limitResults);
+            GenericEntity<Collection<SensorEntity>> entity = new GenericEntity<Collection<SensorEntity>>(list) {
+            };
+            return Response.status(Response.Status.OK).entity(entity).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
+
     }
 
 }

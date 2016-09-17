@@ -1,37 +1,22 @@
 package cz.eclub.iot.model;
 
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 
 public enum DbUtils {
     INSTANCE;
 
-    private EntityManager em;
-    private EntityManagerFactory emf;
+    private static EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db.hibernate");
 
 
-    private EntityManagerFactory createEntityManagerFactory() {
-        emf = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db.hibernate");
-        em = emf.createEntityManager();
-        System.out.println("CREATED!!");
-        return emf;
+    public EntityManagerFactory getSessionFactory() {
+        return sessionFactory;
     }
 
-    public EntityManager getEntityManager() {
-        if (em == null || !em.isOpen()) createEntityManagerFactory();
-        em.setFlushMode(FlushModeType.COMMIT);
-        return em;
+    public void closeSessionFactory() {
+        sessionFactory.close();
     }
-
-    public void closeEntityManagerFactory() {
-        if(emf != null) {
-            if (emf.isOpen()) emf.close();
-        }
-    }
-
 
     public static DbUtils getInstance() {
         return INSTANCE;
