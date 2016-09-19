@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SensorEntryEntity extends AbstractEntity {
+public class SensorEntryEntity extends AbstractEntity implements Serializable {
 
     @Basic
     @Column(name = "value")

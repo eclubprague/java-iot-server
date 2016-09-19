@@ -9,6 +9,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import java.util.List;
 
 @Path("sensor")
 public class SensorService {
@@ -35,12 +36,12 @@ public class SensorService {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllSensors() {
         try {
-            Collection<SensorEntity> list = sensorDao.getAll();
-            GenericEntity<Collection<SensorEntity>> entity = new GenericEntity<Collection<SensorEntity>>(list) {
+            List<SensorEntity> list = (List<SensorEntity>) sensorDao.getAll();
+            GenericEntity<List<SensorEntity>> entity = new GenericEntity<List<SensorEntity>>(list) {
             };
             return Response.status(Response.Status.OK).entity(entity).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 

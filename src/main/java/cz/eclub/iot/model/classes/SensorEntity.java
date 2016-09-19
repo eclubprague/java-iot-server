@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
@@ -17,7 +18,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SensorEntity extends AbstractEntity {
+public class SensorEntity extends AbstractEntity implements Serializable {
 
     @Basic
     @Column(name = "_uuid" )
@@ -31,7 +32,7 @@ public class SensorEntity extends AbstractEntity {
     @Column(name="location")
     private String location;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", orphanRemoval=true, fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<SensorEntryEntity> sensorEntries;
 
