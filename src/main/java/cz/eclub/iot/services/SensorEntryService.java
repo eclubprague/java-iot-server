@@ -49,9 +49,7 @@ public class SensorEntryService {
     @Path("{uuid}/{limit}/{unit}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<SensorEntryEntity> getByUnit(@PathParam("uuid") String uuid, @PathParam("limit") String limit, @PathParam("unit") String unit) {
-        System.out.println(uuid);
-        System.out.println(unit);
-        System.out.println(limit);
+
 
         Integer limitResults = Integer.parseInt(limit);
         Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByUUIDLimit(uuid, unit, limitResults);
@@ -62,13 +60,11 @@ public class SensorEntryService {
     @Path("{uuid}/{limit}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Collection<SensorEntryEntity> getByUnit(@PathParam("uuid") String uuid, @PathParam("limit") String limit) {
-        System.out.println(uuid);
-        System.out.println(limit);
+
 
         Integer limitResults = Integer.parseInt(limit);
         Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByUUIDLimit(uuid, limitResults);
 
-        System.out.println(sensorEntryCollection);
 
         return sensorEntryCollection;
     }
