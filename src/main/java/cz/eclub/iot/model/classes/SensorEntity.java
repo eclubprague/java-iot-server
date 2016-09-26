@@ -33,7 +33,6 @@ public class SensorEntity extends AbstractEntity implements Serializable {
     private String location;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", orphanRemoval=true, fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<SensorEntryEntity> sensorEntries;
 
 }

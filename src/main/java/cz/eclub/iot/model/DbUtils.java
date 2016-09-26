@@ -11,7 +11,10 @@ public enum DbUtils {
     private static EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db.hibernate");
 
     public EntityManager getEntityManager() {
-        return sessionFactory.createEntityManager();
+        if(sessionFactory.isOpen())
+            return sessionFactory.createEntityManager();
+        else
+            throw new RuntimeException("Session factory is closed!");
     }
 
     public void closeSessionFactory() {
