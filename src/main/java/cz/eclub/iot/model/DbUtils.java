@@ -10,7 +10,6 @@ public enum DbUtils {
 
     private static EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("cz.eclub.iot.server.db.hibernate");
 
-
     public EntityManager getEntityManager() {
         return sessionFactory.createEntityManager();
     }

@@ -29,7 +29,7 @@ public class AbstractDao<T extends AbstractEntity> implements IAbstractDao<T>, S
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
-        //entityManager.close();
+        entityManager.close();
     }
 
     @Override

@@ -16,10 +16,10 @@ public class SensorDao extends AbstractDao<SensorEntity> {
         Query q = entityManager.createQuery("select s from SensorEntity as s where s._UUID=:uuid");
         q.setParameter("uuid", uuid);
         List result = q.getResultList();
-        if (result.size() == 0)
-            return null; // <-- to se mi nelibi
-
         entityManager.close();
+        if (result.size() == 0) {
+            return null; // <-- to se mi nelibi, mně taky ne
+        }
         return (SensorEntity) result.get(0);
     }
 
