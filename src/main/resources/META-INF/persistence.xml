@@ -12,7 +12,7 @@
         <class>cz.eclub.iot.model.classes.UserEntity</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
                       value="jdbc:mysql://localhost:3306/eclub-iot??characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;sessionVariables=wait_timeout=100000000"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
