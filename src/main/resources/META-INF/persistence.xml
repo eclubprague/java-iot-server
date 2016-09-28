@@ -14,7 +14,7 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/iot??characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;sessionVariables=wait_timeout=100000000"/>
+                      value="jdbc:mysql://localhost:3306/iot?characterEncoding=UTF-8"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <!--<property name="javax.persistence.jdbc.password" value="root"/>-->
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
@@ -32,7 +32,7 @@
             <property name="hibernate.format_sql" value="false"/>
             <property name="hibernate.connection.CharSet" value="utf8"/>
             <property name="hibernate.connection.characterEncoding" value="utf8"/>
-            <property name="hibernate.connection.useUnicode" value="utf8"/>
+
         </properties>
     </persistence-unit>
 </persistence>
