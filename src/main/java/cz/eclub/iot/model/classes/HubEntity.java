@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "HUB")
+@Table(name = "hub")
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter

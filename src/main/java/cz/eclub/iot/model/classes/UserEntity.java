@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
