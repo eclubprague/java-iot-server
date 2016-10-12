@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "SENSOR_ENTRY")
+@Table(name = "sensor_entry")
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter

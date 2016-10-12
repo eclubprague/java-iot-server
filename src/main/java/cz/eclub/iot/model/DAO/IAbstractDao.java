@@ -1,10 +1,12 @@
 package cz.eclub.iot.model.DAO;
 
-import cz.eclub.iot.model.classes.AbstractEntity;
+
+import cz.eclub.iot.model.classes.IEntity;
+
 import java.util.Collection;
 
-public interface IAbstractDao<T extends AbstractEntity> {
-    void addNew(T entity);
+public interface IAbstractDao<T extends IEntity> {
+    boolean addNew(T entity);
 
     Collection<T> getAll();
 
@@ -12,9 +14,7 @@ public interface IAbstractDao<T extends AbstractEntity> {
 
     T getById(int id);
 
-    void update(T entity);
+    boolean update(T entity);
 
-    void delete(T entity);
-
-
+    boolean delete(T entity);
 }

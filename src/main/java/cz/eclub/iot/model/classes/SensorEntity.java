@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table(name = "SENSOR")
+@Table(name = "sensor")
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter

@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "API_KEYS")
+@Table(name = "api_keys")
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
