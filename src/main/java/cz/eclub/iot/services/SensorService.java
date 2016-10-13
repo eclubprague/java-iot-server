@@ -51,7 +51,7 @@ public class SensorService {
     @Produces({MediaType.APPLICATION_JSON})
     public Response removeSensor(@PathParam("UUID") String uuid) {
         SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-        if (sensorEntity != null) { // <-- toto se mi nelibi
+        if (sensorEntity != null) {
             try {
                 sensorDao.delete(sensorEntity);
                 return Response.status(Response.Status.OK).build();
