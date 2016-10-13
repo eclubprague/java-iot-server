@@ -18,16 +18,15 @@ public class SensorService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newSensor(SensorEntity sensor) {
-        System.out.println(sensor);
-
-        sensor.set_UUID(Utils.escape(sensor.get_UUID()));
-        sensor.setDescription(Utils.escape(sensor.getDescription()));
-        sensor.setLocation(Utils.escape(sensor.getLocation()));
-
         try {
+            System.out.println(sensor);
+            sensor.set_UUID(Utils.escape(sensor.get_UUID()));
+            sensor.setDescription(Utils.escape(sensor.getDescription()));
+            sensor.setLocation(Utils.escape(sensor.getLocation()));
             sensorDao.addNew(sensor);
             return Response.status(Response.Status.CREATED).entity(sensor).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -41,6 +40,7 @@ public class SensorService {
             };
             return Response.status(Response.Status.OK).entity(entity).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
@@ -50,16 +50,18 @@ public class SensorService {
     @Path("{UUID}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response removeSensor(@PathParam("UUID") String uuid) {
-        SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-        if (sensorEntity != null) {
-            try {
+        try {
+            SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
+            if (sensorEntity != null) {
                 sensorDao.delete(sensorEntity);
                 return Response.status(Response.Status.OK).build();
-            } catch (Exception e) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+
             }
+            return Response.status(Response.Status.NOT_FOUND).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
 
     }
 
@@ -67,19 +69,20 @@ public class SensorService {
     @Path("{UUID}/{LIMIT}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSensorById(@PathParam("UUID") String uuid, @PathParam("LIMIT") String limit) {
-        SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-        if (sensorEntity == null) { // <-- toto se mi nelibi
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
         try {
+            SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
+            if (sensorEntity == null) { // <-- toto se mi nelibi
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
             Integer limitResults = Integer.parseInt(limit);
             Collection<SensorEntity> list = sensorDao.getByUUIDLimit(uuid, limitResults);
             GenericEntity<Collection<SensorEntity>> entity = new GenericEntity<Collection<SensorEntity>>(list) {
             };
             return Response.status(Response.Status.OK).entity(entity).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
 
     }
