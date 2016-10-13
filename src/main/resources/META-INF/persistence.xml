@@ -28,8 +28,8 @@
             <property name="maxStatements" value="50"/>
             <property name="idleConnectionTestPeriod" value="3000"/>
             <property name="loginTimeout" value="3000"/>
-            <property name="hibernate.show_sql" value="false"/>
-            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
