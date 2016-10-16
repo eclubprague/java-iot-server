@@ -20,7 +20,7 @@ public class SensorService {
     public Response newSensor(SensorEntity sensor) {
         try {
             System.out.println(sensor);
-            sensor.set_UUID(Utils.escape(sensor.get_UUID()));
+            sensor.setUUID(Utils.escape(sensor.getUUID()));
             sensor.setDescription(Utils.escape(sensor.getDescription()));
             sensor.setLocation(Utils.escape(sensor.getLocation()));
             sensorDao.addNew(sensor);
@@ -69,21 +69,22 @@ public class SensorService {
     @Path("{UUID}/{LIMIT}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSensorById(@PathParam("UUID") String uuid, @PathParam("LIMIT") String limit) {
-        try {
-            SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-            if (sensorEntity == null) { // <-- toto se mi nelibi
-                return Response.status(Response.Status.NOT_FOUND).build();
-            }
-
-            Integer limitResults = Integer.parseInt(limit);
-            Collection<SensorEntity> list = sensorDao.getByUUIDLimit(uuid, limitResults);
-            GenericEntity<Collection<SensorEntity>> entity = new GenericEntity<Collection<SensorEntity>>(list) {
-            };
-            return Response.status(Response.Status.OK).entity(entity).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
-        }
+        return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+//        try {
+//            SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
+//            if (sensorEntity == null) { // <-- toto se mi nelibi
+//                return Response.status(Response.Status.NOT_FOUND).build();
+//            }
+//
+//            Integer limitResults = Integer.parseInt(limit);
+//            Collection<SensorEntity> list = sensorDao.getByUUIDLimit(uuid, limitResults);
+//            GenericEntity<Collection<SensorEntity>> entity = new GenericEntity<Collection<SensorEntity>>(list) {
+//            };
+//            return Response.status(Response.Status.OK).entity(entity).build();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+//        }
 
     }
 

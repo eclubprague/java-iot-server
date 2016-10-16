@@ -1,42 +1,34 @@
 package cz.eclub.iot.model.classes;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
-@Table(name = "sensor_entry")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Indexed
+@ToString(exclude = "sensor")
 public class SensorEntryEntity extends AbstractEntity implements Serializable {
 
-    @Basic
-    @Column(name = "value")
     private String value;
 
-    @Basic
-    @Column(name = "unit")
     private String unit;
 
-    @Column(name = "timestamp")
+    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.YES)
     private long timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "sensorID", referencedColumnName = "ID", nullable = false)
     private SensorEntity sensor;
 
-    @Override
-    public String toString() {
-        return "SensorEntryEntity{" +
-                "value='" + value + '\'' +
-                ", unit='" + unit + '\'' +
-                ", timestamp=" + timestamp +
-                '}';
-    }
+
 }

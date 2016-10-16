@@ -1,38 +1,33 @@
 package cz.eclub.iot.model.classes;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.*;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table(name = "sensor")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Indexed
 public class SensorEntity extends AbstractEntity implements Serializable {
 
-    @Basic
-    @Column(name = "_uuid" )
-    private String _UUID;
+    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.YES)
+    private String UUID;
 
-    @Basic
-    @Column(name="description")
     private String description;
 
-    @Basic
-    @Column(name="location")
     private String location;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", orphanRemoval=true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", fetch = FetchType.EAGER)
     private Collection<SensorEntryEntity> sensorEntries;
 
 }

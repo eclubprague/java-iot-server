@@ -6,7 +6,6 @@ import cz.eclub.iot.model.classes.HubEntity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Path("hub")
@@ -18,8 +17,10 @@ public class Hub {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllHubs() {
         try {
-            Collection<HubEntity> list = hubDao.getAllHubs();
-            return Response.status(Response.Status.CREATED).entity(list).build();
+            //Collection<HubEntity> list = hubDao.getAllHubs();
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+
+            //return Response.status(Response.Status.CREATED).entity(list).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }

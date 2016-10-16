@@ -3,11 +3,15 @@ package cz.eclub.iot.model.DAO;
 
 import cz.eclub.iot.model.DbUtils;
 import cz.eclub.iot.model.classes.IEntity;
+import cz.eclub.iot.model.classes.SensorEntity;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -15,8 +19,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializable {
-    private EntityManager entityManager;
     protected Class<T> persistentClass;
+    private EntityManager entityManager;
 
     public AbstractDao() {
         entityManager = DbUtils.getInstance().getEntityManager();
@@ -39,21 +43,21 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
         }
     }
 
-
     @Override
     public boolean addNew(T entity) { //TODO should throw exception
+        boolean returnValue = false;
         try {
-            getEntityManager().getTransaction().begin();
+            DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().persist(entity);
-            getEntityManager().getTransaction().commit();
-            return true;
+            DbUtils.getInstance().getTransactionManager().commit();
+            returnValue=true;
         } catch (Exception e) {
-            e.printStackTrace();
-            getEntityManager().getTransaction().rollback();
-            return false;
+            System.out.println("daco sa pojebalo");
+            //e.printStackTrace();
         } finally {
             closeEntityManager();
         }
+        return returnValue;
     }
 
     @Override
@@ -67,60 +71,89 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
         return collection;
     }
 
+//    @Override
+//    public Collection<T> getAll() {
+//        Collection<T> returnValue = null;
+//        try {
+//            FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
+//
+//            DbUtils.getInstance().getTransactionManager().begin();
+//
+//            QueryBuilder b = ftem.getSearchFactory()
+//                    .buildQueryBuilder()
+//                    .forEntity(T.class)
+//                    .get();
+//
+//            Query lq = b.keyword().createQuery();
+//
+//
+//            FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
+//
+//            List<SensorEntity> resultList = ftQuery.getResultList();
+//
+//            DbUtils.getInstance().getTransactionManager().commit();
+//
+//
+//            if(resultList.size()==1){
+//                returnValue = resultList.get(0);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            rollback(e);
+//        } finally {
+//            closeEntityManager();
+//        }
+//        return returnValue;
+//    }
+
     @Override
-    public boolean exists(T entity) {  //TODO should throw exception
-        CriteriaQuery q = getEntityManager().getCriteriaBuilder().createQuery(persistentClass);
-        Root<T> abstractRoot = q.from(persistentClass);
-        q.select(abstractRoot);
-        ParameterExpression<Integer> p = getEntityManager().getCriteriaBuilder().parameter(Integer.class);
-
-        q.where(getEntityManager().getCriteriaBuilder().equal(abstractRoot.get("id"),p));
-        Query qq = getEntityManager().createQuery(q);
-        return !qq.setParameter(p, entity.getId()).getResultList().isEmpty();
-    }
-
-    @Override
-    public T getById(int id) {
-        CriteriaQuery q = getEntityManager().getCriteriaBuilder().createQuery(persistentClass);
-        Root<T> abstractRoot = q.from(persistentClass);
-        q.select(abstractRoot);
-        ParameterExpression<Integer> p = getEntityManager().getCriteriaBuilder().parameter(Integer.class);
-
-        q.where(getEntityManager().getCriteriaBuilder().equal(abstractRoot.get("id"),p));
-        Query qq = getEntityManager().createQuery(q);
-        List<T> resultList = qq.setParameter(p, id).getResultList();
-        return (resultList.isEmpty())? null : resultList.get(0);
+    public boolean exists(T entity) {
+        return false;
     }
 
     @Override
     public boolean update(T entity) { //TODO should throw exception
+        boolean returnValue = false;
         try {
-            getEntityManager().getTransaction().begin();
+            DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().merge(entity);
-            getEntityManager().getTransaction().commit();
-            return true;
+            DbUtils.getInstance().getTransactionManager().commit();
+            returnValue=true;
         } catch (Exception e) {
-            e.printStackTrace();
-            getEntityManager().getTransaction().rollback();
-            return false;
+            rollback(e);
         } finally {
             closeEntityManager();
         }
+        return returnValue;
     }
 
     @Override
     public boolean delete(T entity) { //TODO should throw exception
+        boolean returnValue = false;
         try {
-            getEntityManager().getTransaction().begin();
+            DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().remove(entity);
-            getEntityManager().getTransaction().commit();
-            return true;
+            DbUtils.getInstance().getTransactionManager().commit();
+            returnValue=true;
         } catch (Exception e) {
             e.printStackTrace();
-            getEntityManager().getTransaction().rollback();
-            return false;
         } finally {
             closeEntityManager();
         }
+        return returnValue;
     }
+
+
+    protected boolean rollback(Exception e){
+        e.printStackTrace();
+//        try {
+//            e.printStackTrace();
+//            //DbUtils.getInstance().getTransactionManager().rollback();
+//        } catch (SystemException e1) {
+//            e1.printStackTrace();
+//        }
+        return false;
+    }
+
 }

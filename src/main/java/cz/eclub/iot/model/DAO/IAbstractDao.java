@@ -12,7 +12,7 @@ public interface IAbstractDao<T extends IEntity> {
 
     boolean exists(T entity);
 
-    T getById(int id);
+    //T getById(int id);
 
     boolean update(T entity);
 

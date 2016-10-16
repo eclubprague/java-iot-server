@@ -1,9 +1,8 @@
 package cz.eclub.iot.model.classes;
 
-import cz.eclub.iot.model.classes.IEntity;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.search.annotations.DocumentId;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -12,19 +11,19 @@ import javax.persistence.MappedSuperclass;
 public abstract class AbstractEntity implements IEntity {
 
     @Id
-    @Column(name = "ID")
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    protected int id;
+    @DocumentId
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String Id;
 
     @Override
-    public int getId() {
-        return id;
+    public String getId() {
+        return Id;
     }
 
     @Override
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String Id) {
+        this.Id = Id;
     }
 
 }

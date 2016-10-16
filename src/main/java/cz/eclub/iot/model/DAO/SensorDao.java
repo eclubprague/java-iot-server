@@ -2,34 +2,53 @@ package cz.eclub.iot.model.DAO;
 
 import cz.eclub.iot.model.DbUtils;
 import cz.eclub.iot.model.classes.SensorEntity;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.Collection;
 import java.util.List;
 
+
 public class SensorDao extends AbstractDao<SensorEntity> {
 
+    public SensorEntity getByUUID(String UUID){
+        SensorEntity returnValue = null;
+        try {
+            FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
 
-    public SensorEntity getByUUID(String uuid) {
-        Query q = getEntityManager().createQuery("select s from SensorEntity as s where s._UUID=:uuid");
-        q.setParameter("uuid", uuid);
-        List result = q.getResultList();
-        closeEntityManager();
-        if (result.size() == 0) {
-            return null;
+            DbUtils.getInstance().getTransactionManager().begin();
+
+            QueryBuilder b = ftem.getSearchFactory()
+                    .buildQueryBuilder()
+                    .forEntity(SensorEntity.class)
+                    .get();
+
+            Query lq = b.keyword().onField("UUID").matching(UUID).createQuery();
+
+            FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
+
+            List<SensorEntity> resultList = ftQuery.getResultList();
+
+            DbUtils.getInstance().getTransactionManager().commit();
+
+
+            if(resultList.size()==1){
+                returnValue = resultList.get(0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rollback(e);
+        } finally {
+            closeEntityManager();
         }
-        return (SensorEntity) result.get(0);
+        return returnValue;
     }
 
-    public Collection<SensorEntity> getByUUIDLimit(String uuid, int limit) {
-        Query q = getEntityManager().createQuery("select s from SensorEntity as s where s._UUID=:uuid");
-        q.setParameter("uuid", uuid);
-        if (limit > 0) // <-- to se mi nelibi
-            q.setMaxResults(limit);
-        List result = q.getResultList();
-        closeEntityManager();
-        return result;
+    public Collection<SensorEntity> getByUUIDLimit(String uuid, Integer limitResults) {
+        return null;
     }
-
 }
