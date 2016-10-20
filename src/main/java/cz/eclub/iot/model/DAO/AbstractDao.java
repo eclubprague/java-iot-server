@@ -11,12 +11,9 @@ import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
-import java.util.List;
 
 public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializable {
     protected Class<T> persistentClass;
@@ -50,7 +47,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
             DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().persist(entity);
             DbUtils.getInstance().getTransactionManager().commit();
-            returnValue=true;
+            returnValue = true;
         } catch (Exception e) {
             System.out.println("daco sa pojebalo");
             //e.printStackTrace();
@@ -60,52 +57,38 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
         return returnValue;
     }
 
+
     @Override
     public Collection<T> getAll() {
-        CriteriaQuery q = getEntityManager().getCriteriaBuilder().createQuery(persistentClass);
-        Root<T> abstractRoot = q.from(persistentClass);
-        q.select(abstractRoot);
+        Collection<T> returnValue = null;
+        try {
+            FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
 
-        Collection<T> collection = getEntityManager().createQuery(q).getResultList();
-        closeEntityManager();
-        return collection;
+            DbUtils.getInstance().getTransactionManager().begin();
+
+            QueryBuilder b = ftem.getSearchFactory()
+                    .buildQueryBuilder()
+                    .forEntity(persistentClass)
+                    .get();
+
+            Query lq = b.all().createQuery();
+
+
+            FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
+
+            returnValue = ftQuery.getResultList();
+
+            DbUtils.getInstance().getTransactionManager().commit();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rollback(e);
+        } finally {
+            closeEntityManager();
+        }
+        return returnValue;
     }
-
-//    @Override
-//    public Collection<T> getAll() {
-//        Collection<T> returnValue = null;
-//        try {
-//            FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
-//
-//            DbUtils.getInstance().getTransactionManager().begin();
-//
-//            QueryBuilder b = ftem.getSearchFactory()
-//                    .buildQueryBuilder()
-//                    .forEntity(T.class)
-//                    .get();
-//
-//            Query lq = b.keyword().createQuery();
-//
-//
-//            FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
-//
-//            List<SensorEntity> resultList = ftQuery.getResultList();
-//
-//            DbUtils.getInstance().getTransactionManager().commit();
-//
-//
-//            if(resultList.size()==1){
-//                returnValue = resultList.get(0);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            rollback(e);
-//        } finally {
-//            closeEntityManager();
-//        }
-//        return returnValue;
-//    }
 
     @Override
     public boolean exists(T entity) {
@@ -119,7 +102,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
             DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().merge(entity);
             DbUtils.getInstance().getTransactionManager().commit();
-            returnValue=true;
+            returnValue = true;
         } catch (Exception e) {
             rollback(e);
         } finally {
@@ -135,7 +118,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
             DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().remove(entity);
             DbUtils.getInstance().getTransactionManager().commit();
-            returnValue=true;
+            returnValue = true;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -145,7 +128,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
     }
 
 
-    protected boolean rollback(Exception e){
+    protected boolean rollback(Exception e) {
         e.printStackTrace();
 //        try {
 //            e.printStackTrace();
