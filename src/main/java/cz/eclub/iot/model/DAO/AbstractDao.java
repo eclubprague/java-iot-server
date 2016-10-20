@@ -73,14 +73,12 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
 
             Query lq = b.all().createQuery();
 
-
             FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
 
             returnValue = ftQuery.getResultList();
 
             DbUtils.getInstance().getTransactionManager().commit();
-
-
+            
         } catch (Exception e) {
             e.printStackTrace();
             rollback(e);
