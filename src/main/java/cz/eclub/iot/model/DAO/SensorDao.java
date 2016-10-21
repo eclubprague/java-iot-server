@@ -14,12 +14,12 @@ import java.util.List;
 
 public class SensorDao extends AbstractDao<SensorEntity> {
 
-    public SensorEntity getByUUID(String UUID){
+    public SensorEntity getByUUID(String UUID) {
         SensorEntity returnValue = null;
         try {
             FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
 
-            //DbUtils.getInstance().getTransactionManager().begin();
+            DbUtils.getInstance().getTransactionManager().begin();
 
             QueryBuilder b = ftem.getSearchFactory()
                     .buildQueryBuilder()
@@ -32,10 +32,10 @@ public class SensorDao extends AbstractDao<SensorEntity> {
 
             List<SensorEntity> resultList = ftQuery.getResultList();
 
-            //DbUtils.getInstance().getTransactionManager().commit();
+            DbUtils.getInstance().getTransactionManager().commit();
 
 
-            if(resultList.size()==1){
+            if (resultList.size() == 1) {
                 returnValue = resultList.get(0);
             }
 
@@ -51,4 +51,7 @@ public class SensorDao extends AbstractDao<SensorEntity> {
     public Collection<SensorEntity> getByUUIDLimit(String uuid, Integer limitResults) {
         return null;
     }
+
+
+
 }
