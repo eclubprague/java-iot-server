@@ -19,7 +19,7 @@ public class SensorService {
     public Response newSensor(SensorEntity sensor) {
         try {
             System.out.println(sensor);
-            sensor.setUUID(Utils.escape(sensor.getUUID()));
+            sensor.set_UUID(Utils.escape(sensor.get_UUID()));
             sensor.setDescription(Utils.escape(sensor.getDescription()));
             sensor.setLocation(Utils.escape(sensor.getLocation()));
             sensorDao.addNew(sensor);
