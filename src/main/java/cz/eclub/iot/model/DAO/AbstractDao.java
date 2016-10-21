@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializable {
     protected Class<T> persistentClass;
@@ -72,9 +73,8 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
                     .get();
 
             Query lq = b.all().createQuery();
-
+            
             FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
-
             returnValue = ftQuery.getResultList();
 
             DbUtils.getInstance().getTransactionManager().commit();
