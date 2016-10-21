@@ -23,6 +23,7 @@
             <property name="hibernate.ogm.mongodb.database" value="iot"/>
             <property name="hibernate.ogm.mongodb.username" value="iot"/>
             <property name="hibernate.ogm.mongodb.password" value="iot"/>
+            <property name="hibernate.search.lucene_version" value="LUCENE_CURRENT"/>
 
             <property name="hibernate.ogm.datastore.create_database" value="true"/>
 

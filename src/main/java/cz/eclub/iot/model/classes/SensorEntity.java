@@ -20,7 +20,7 @@ import java.util.Collection;
 @Indexed
 public class SensorEntity extends AbstractEntity implements Serializable {
 
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.YES)
+    @Field(index = Index.YES)
     private String _UUID;
 
     private String description;

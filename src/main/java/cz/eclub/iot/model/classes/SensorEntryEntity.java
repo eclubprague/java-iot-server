@@ -24,7 +24,6 @@ public class SensorEntryEntity extends AbstractEntity implements Serializable {
 
     private String unit;
 
-    @Field(index = org.hibernate.search.annotations.Index.YES, analyze = Analyze.YES, store = Store.YES)
     private long timestamp;
 
     @ManyToOne
