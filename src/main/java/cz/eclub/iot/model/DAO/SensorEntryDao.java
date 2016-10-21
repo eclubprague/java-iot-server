@@ -16,7 +16,7 @@ public class SensorEntryDao extends AbstractDao<SensorEntryEntity> {
         try {
             FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
 
-            DbUtils.getInstance().getTransactionManager().begin();
+            //DbUtils.getInstance().getTransactionManager().begin();
 
             QueryBuilder b = ftem.getSearchFactory()
                     .buildQueryBuilder()
@@ -29,7 +29,7 @@ public class SensorEntryDao extends AbstractDao<SensorEntryEntity> {
 
             returnValue = ftQuery.getResultList();
 
-            DbUtils.getInstance().getTransactionManager().commit();
+            //DbUtils.getInstance().getTransactionManager().commit();
 
 
         } catch (Exception e) {

@@ -16,16 +16,15 @@ public enum DbUtils {
 
     private static TransactionManager transactionManager = com.arjuna.ats.jta.TransactionManager.transactionManager();
 
+    public static DbUtils getInstance() {
+        return INSTANCE;
+    }
+
     public EntityManager getEntityManager() {
-        if(sessionFactory.isOpen())
+        if (sessionFactory.isOpen())
             return sessionFactory.createEntityManager();
         else
             throw new RuntimeException("Session factory is closed!");
-    }
-
-    public FullTextEntityManager getFullTextEntityManager(){
-        FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
-        return ftem;
     }
 
 
@@ -33,12 +32,13 @@ public enum DbUtils {
         return transactionManager;
     }
 
-    public void closeSessionFactory() {
-        sessionFactory.close();
+    public FullTextEntityManager getFullTextEntityManager() {
+        FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
+        return ftem;
     }
 
-    public static DbUtils getInstance() {
-        return INSTANCE;
+    public void closeSessionFactory() {
+        sessionFactory.close();
     }
 
 
