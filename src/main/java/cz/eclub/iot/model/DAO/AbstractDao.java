@@ -44,9 +44,9 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
     public boolean addNew(T entity) { //TODO should throw exception
         boolean returnValue = false;
         try {
-            DbUtils.getInstance().getTransactionManager().begin();
+            //DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().persist(entity);
-            DbUtils.getInstance().getTransactionManager().commit();
+            //DbUtils.getInstance().getTransactionManager().commit();
             returnValue = true;
         } catch (Exception e) {
             System.out.println("daco sa pojebalo");
@@ -64,7 +64,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
         try {
             FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
 
-            DbUtils.getInstance().getTransactionManager().begin();
+            //DbUtils.getInstance().getTransactionManager().begin();
 
             QueryBuilder b = ftem.getSearchFactory()
                     .buildQueryBuilder()
@@ -77,7 +77,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
 
             returnValue = ftQuery.getResultList();
 
-            DbUtils.getInstance().getTransactionManager().commit();
+            //DbUtils.getInstance().getTransactionManager().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,9 +97,9 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
     public boolean update(T entity) { //TODO should throw exception
         boolean returnValue = false;
         try {
-            DbUtils.getInstance().getTransactionManager().begin();
+            //DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().merge(entity);
-            DbUtils.getInstance().getTransactionManager().commit();
+            //DbUtils.getInstance().getTransactionManager().commit();
             returnValue = true;
         } catch (Exception e) {
             rollback(e);
@@ -113,9 +113,9 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
     public boolean delete(T entity) { //TODO should throw exception
         boolean returnValue = false;
         try {
-            DbUtils.getInstance().getTransactionManager().begin();
+            //DbUtils.getInstance().getTransactionManager().begin();
             getEntityManager().remove(entity);
-            DbUtils.getInstance().getTransactionManager().commit();
+            //DbUtils.getInstance().getTransactionManager().commit();
             returnValue = true;
         } catch (Exception e) {
             e.printStackTrace();
