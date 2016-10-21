@@ -26,7 +26,7 @@ public class SensorDao extends AbstractDao<SensorEntity> {
                     .forEntity(SensorEntity.class)
                     .get();
 
-            Query lq = b.keyword().onField("UUID").matching(UUID).createQuery();
+            Query lq = b.keyword().onField("_UUID").matching(UUID).createQuery();
 
             FullTextQuery ftQuery = ftem.createFullTextQuery(lq, SensorEntity.class);
 

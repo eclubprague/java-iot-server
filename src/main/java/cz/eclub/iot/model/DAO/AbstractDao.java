@@ -78,7 +78,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
             returnValue = ftQuery.getResultList();
 
             DbUtils.getInstance().getTransactionManager().commit();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             rollback(e);
