@@ -64,7 +64,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
         try {
             FullTextEntityManager ftem = Search.getFullTextEntityManager(getEntityManager());
 
-            DbUtils.getInstance().getTransactionManager().begin();
+            //DbUtils.getInstance().getTransactionManager().begin();
 
             QueryBuilder b = ftem.getSearchFactory()
                     .buildQueryBuilder()
@@ -77,7 +77,7 @@ public class AbstractDao<T extends IEntity> implements IAbstractDao<T>, Serializ
 
             returnValue = ftQuery.getResultList();
 
-            DbUtils.getInstance().getTransactionManager().commit();
+            //DbUtils.getInstance().getTransactionManager().commit();
 
         } catch (Exception e) {
             e.printStackTrace();
