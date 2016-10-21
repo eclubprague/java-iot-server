@@ -95,7 +95,7 @@
             <artifactId>hibernate-search-orm</artifactId>
             <version>5.5.5.Final</version>
         </dependency>
-        
+
 
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
