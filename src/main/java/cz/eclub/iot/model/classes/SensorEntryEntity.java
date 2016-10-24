@@ -1,10 +1,7 @@
 package cz.eclub.iot.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -15,8 +12,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Indexed
 @ToString(exclude = "sensor")
 public class SensorEntryEntity extends AbstractEntity implements Serializable {
 
@@ -26,6 +21,7 @@ public class SensorEntryEntity extends AbstractEntity implements Serializable {
 
     private long timestamp;
 
+    @JsonIgnore
     @ManyToOne
     private SensorEntity sensor;
 

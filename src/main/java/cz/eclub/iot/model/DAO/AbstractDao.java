@@ -13,6 +13,7 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 

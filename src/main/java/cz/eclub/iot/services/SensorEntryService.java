@@ -10,9 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,12 +21,10 @@ public class SensorEntryService {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAllSensors() {
+    public Response getAllSensorEntries() {
         try {
             Collection<SensorEntryEntity> list = sensorEntryDao.getAll();
-            GenericEntity<Collection<SensorEntryEntity>> entity = new GenericEntity<Collection<SensorEntryEntity>>(list) {
-            };
-            return Response.status(Response.Status.OK).entity(entity).build();
+            return Response.status(Response.Status.OK).entity(list).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();

@@ -1,7 +1,10 @@
 package cz.eclub.iot.model.classes;
 
 import lombok.*;
-import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,9 +18,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
-@Indexed
 public class SensorEntity extends AbstractEntity implements Serializable {
 
     @Field(index = Index.YES, analyze = Analyze.NO, store = Store.YES)

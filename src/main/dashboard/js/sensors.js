@@ -1,4 +1,7 @@
-var graphs = {}; 
+var graphs = {};
+
+//var baseUrl = "https://iot.eclubprague.com/iot";
+var baseUrl = "http://localhost:8080/webapi";
 
 function sendRequest(url,callback){
 	var xhr = new XMLHttpRequest();
@@ -12,7 +15,7 @@ function sendRequest(url,callback){
 }
 		
 function sensorRequest(uuid){
-	var url = "https://iot.eclubprague.com/iot/sensor_entry/"+uuid+"/40/temperature";
+	var url = baseUrl+"/sensor_entry/"+uuid+"/40/temperature";
 	sendRequest(url,function(status,response){
 		if(status==200){
 			var dataArray = JSON.parse(response).reverse();
@@ -31,7 +34,7 @@ function sensorRequest(uuid){
 		}	
 	});
 
-	var url = "https://iot.eclubprague.com/iot/sensor_entry/"+uuid+"/40/battery";
+	var url = baseUrl+"/sensor_entry/"+uuid+"/40/battery";
 	sendRequest(url,function(status,response){
 		if(status==200){
 			var dataArray = JSON.parse(response).reverse();
@@ -60,7 +63,7 @@ function startPolling(sensorList){
 }
 	
 function uuidRequest(){
-	var url = "https://iot.eclubprague.com/iot/sensor";
+	var url = baseUrl+"/sensor";
 	sendRequest(url,function(status,response){
 		if(status==200){
 			var sensorList = JSON.parse(response);
