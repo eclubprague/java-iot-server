@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+	<title>Add new IOT sensor</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/font-awesome.min.css" rel="stylesheet" >
+
+</head>
+<body>
+<header>
+	<h1><img src="img/logo.png"></h1><h1>eClub: IOT Dashboard</h1>
+</header>
+<nav class="side-nav">
+		<ul>
+			<li><a href="index.html"><i class="fa fa-list-ul"></i>Sensors</a></li>
+			<li><a href="addsensor.html"><i class="fa fa-plus-circle"></i>Add Sensor</a></li>
+		</ul>
+	</nav>
+<main class="main-layout">
+<div id="alert" class="alertdialog">
+<h3>Error: Fields cannot be empty!</h3>
+</div>
+
+<div class="new-sensor">
+<div class="new-sensor-container">
+	<form>
+		<label>UUID:</label>
+		<input id="uuidField" type="text" name="uuid" placeholder="UUID of the sensors" />
+		<label>Description:</label>
+		<input id="locationField" type="text" name="location" placeholder="Location of the sensor"/>
+		<label>Location:</label>
+		<input id="descrtiptionField" type="text" name="description" placeholder="Description of the sensor" />
+		<button name="savebutton" class="btn btn-primary" id="savebutton">Save</button>
+	</form>
+</div>
+</div>
+
+<div id="sensor-list">
+</div>
+</main>
+<script src="js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript">
+	get_sensors();
+
+	
+	var button = $("#savebutton");
+	button.click(function(event) {
+		event.preventDefault();
+
+		var uuid = 	$("#uuidField").val();
+		var location = 	$("#locationField").val();
+		var description = 	$("#descrtiptionField").val();
+
+		var uuidRegex = new RegExp(/a-zA-Z0-9+/);
+		var czechRegex = new RegExp(/a-zA-Z0-9áčďéěíňóřšťůúýžÁČĎÉĚÍŇÓŘŠŤŮÚÝŽ +/);
+
+		if(uuid === "" || location === "" || description === "") {
+			show_alert("Error: Fields cannot be empty!");
+		}else {
+			if(validateRegex(/^[a-zA-Z0-9]+$/, uuid) && validateRegex(/^[a-zA-Z0-9áčďéěíňóřšťůúýžÁČĎÉĚÍŇÓŘŠŤŮÚÝŽ ]+$/,location) && validateRegex(/^[a-zA-Z0-9áčďéěíňóřšťůúýžÁČĎÉĚÍŇÓŘŠŤŮÚÝŽ ]+$/,description)) {
+				send_post(uuid, location, description);
+			}else {
+				show_alert("Error: Data in wrong format!");
+			}
+		}
+
+
+	});
+
+	function validateRegex(regex, string) {
+		 var re = regex;
+    	 return re.test(string);
+	}
+
+	function refresh_sensor_list(data) {
+		if(data !== undefined)  {
+			var div = $("#sensor-list");
+			div.html("");
+
+
+			for(var i = 0; i<data.length; i++) {
+				var newdiv = $("<div>", {id: "sensor_"+i, "class": "sensor"});
+				var uuid = data[i]._UUID;
+				newdiv.append("<h3>UUID: "+uuid+"</h3>");
+				newdiv.append("<p>"+data[i].description+"</p>");
+				newdiv.append("<p>"+data[i].location+"</p>");
+				var deleteButton = $("<button>", {id: "deletebutton"+i, "class": "", "name":uuid});
+				deleteButton.click(function(btn){
+					delete_sensor(this.name);
+				});
+				deleteButton.append("Delete sensor");
+				newdiv.append(deleteButton);
+				div.append(newdiv);
+			}
+		}
+	}
+
+	function delete_sensor(uuid) {
+		$.ajax({
+	            url: 'https://iot.eclubprague.com/iot/sensor/'+uuid,
+	            type: 'delete',
+		    cache: false,
+	            success: function (data) {
+	            	console.log("Deleted sensor: "+uuid);
+	            	get_sensors();
+	            },
+			    error: function(err) {
+			    		console.log(err);
+			    }
+	    });
+
+	}
+
+	function send_post(uuid, location, description) {
+
+			var sensor = new Object();
+			sensor._UUID = uuid;
+			sensor.location = location;
+			sensor.description = description;
+			console.log(JSON.stringify(sensor));
+			$.ajax({
+	            url: 'https://iot.eclubprague.com/iot/sensor',
+	            type: 'post',
+		    cache: false,
+	            contentType:"application/json; charset=utf-8",
+	            //dataType: 'text',
+		    data: JSON.stringify(sensor),
+	            success: function (data) {
+	            	console.log("added new sensor!");
+	            	get_sensors();
+	            },
+		    error: function(err) {
+		    console.log(err);
+		    }
+	        });
+			$("#uuidField").val("");
+			$("#locationField").val("");
+			$("#descrtiptionField").val("");
+	        
+	}
+
+	function get_sensors() {
+		$.ajax({
+	            url: 'https://iot.eclubprague.com/iot/sensor',
+	            type: 'get',
+		    cache: false,
+	            contentType:"application/json; charset=utf-8",
+	            success: function (data) {
+	            	refresh_sensor_list(data);
+	            },
+	            error: function(err) {
+	            	console.log(err);
+	            }
+	        });
+	}
+
+	function show_alert(text) {
+		var alert = $("#alert");
+		alert.html("");
+		alert.append("<h3>"+text+"</h3>")
+		alert.css("display", "block");
+		alert.css("opacity", 1);
+
+		alert.stop(true, true, true);
+		alert.fadeIn(1);
+		alert.fadeOut(2500);
+
+	}
+
+</script>
+
+</body>
+</html>

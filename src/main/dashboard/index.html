@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IOT Dashboard</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<script src="js/Chart.bundle.js"></script>
+
+</head>
+<body>
+<header>
+	<h1><img src="img/logo.png"></h1><h1>eClub: IOT Dashboard</h1>
+</header>
+<nav class="side-nav">
+		<ul>
+			<li><a href="index.html"><i class="fa fa-list-ul"></i>Sensors</a></li>
+			<li><a href="addsensor.html"><i class="fa fa-plus-circle"></i>Add Sensor</a></li>
+		</ul>
+	</nav>
+<main class="main-layout">
+<div id="alert" class="alertdialog">
+<h3>Error: Filds cannot be empty!</h3>
+</div>
+
+<div class="new-sensor">
+<div class="new-sensor-container">
+	<h1>List of sensors</h1>
+	<h2 id="uuid"></h2>
+	<h2 id="shit1"></h2>
+	<a id="shit2"></a>
+
+		<div id="sensorOverview" class="container sensors-container">
+		</div>
+
+    <div>
+        <canvas id="canvas"></canvas>
+    </div>
+	
+
+</div>
+</div>
+</main>
+<script src="js/jquery-3.1.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/sensors.js"></script>
+<script type="text/javascript">
+	
+	var button = $("#savebutton");
+	button.click(function(event) {
+		event.preventDefault();
+
+		var uuid = 	$("#uuidField");
+		var location = $("#locationField");
+		var description = $("#descrtiptionField");
+
+		if(uuid.val() === "" || location.val() === "" || description.val() == "") {
+			show_alert();
+		}else {
+			send_post(uuid, location, description);
+		}
+
+
+	});
+
+	function send_post(uuid, location, description) {
+
+			var sensor = new Object();
+			sensor._UUID = uuid.val();
+			sensor.location = location.val();
+			sensor.description = description.val();
+			console.log(sensor);
+			$.ajax({
+	            url: 'https://iot.eclubprague.com/iot/sensor/new',
+	            type: 'post',
+	            contentType:"application/json; charset=utf-8",
+	            dataType: 'json',
+	            success: function (data) {
+	            	console.log("added new sensor!");
+	                uuid.val("");
+	                location.val("");
+	                description.val("");
+	            },
+	            data: sensor
+	        });
+	}
+
+	function show_alert() {
+		var alert = $("#alert");
+		alert.css("display", "block");
+		alert.css("opacity", 1);
+
+		alert.stop(true, true, true);
+		alert.fadeIn(1);
+		alert.fadeOut(2500);
+
+	}
+
+</script>
+
+</body>
+</html>
