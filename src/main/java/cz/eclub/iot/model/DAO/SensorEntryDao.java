@@ -14,11 +14,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class SensorEntryDao extends AbstractDao<SensorEntryEntity> {
-    public Collection<SensorEntryEntity> getByUUIDLimit(String uuid, String unit, Integer limitResults) {
+    public Collection<SensorEntryEntity> getByIdUnitLimit(String id, String unit, Integer limitResults) {
         Collection<SensorEntryEntity> returnValue = new ArrayList<>();
         try {
             DbUtils.getInstance().getTransactionManager().begin();
-            returnValue = getEntityManager().createNativeQuery("{\"sensor._UUID\":\""+uuid+"\"}", SensorEntryEntity.class).getResultList();
+            returnValue = getEntityManager().createNativeQuery("{'sensor_Id':'"+id+"','unit':'" + unit + "'}", SensorEntryEntity.class).setMaxResults(limitResults).getResultList();
             DbUtils.getInstance().getTransactionManager().commit();
 
         } catch (Exception e) {
@@ -30,7 +30,19 @@ public class SensorEntryDao extends AbstractDao<SensorEntryEntity> {
         return returnValue;
     }
 
-    public Collection<SensorEntryEntity> getByUUIDLimit(String uuid, Integer limitResults) {
-        return null;
+    public Collection<SensorEntryEntity> getByIdLimit(String id, Integer limitResults) {
+        Collection<SensorEntryEntity> returnValue = new ArrayList<>();
+        try {
+            DbUtils.getInstance().getTransactionManager().begin();
+            returnValue = getEntityManager().createNativeQuery("{'sensor_Id':'"+id+"'}", SensorEntryEntity.class).setMaxResults(limitResults).getResultList();
+            DbUtils.getInstance().getTransactionManager().commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            rollback(e);
+        } finally {
+            closeEntityManager();
+        }
+        return returnValue;
     }
 }

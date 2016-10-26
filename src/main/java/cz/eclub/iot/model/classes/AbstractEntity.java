@@ -1,5 +1,8 @@
 package cz.eclub.iot.model.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.DocumentId;
 
@@ -7,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class AbstractEntity implements IEntity {
 
@@ -14,16 +19,7 @@ public abstract class AbstractEntity implements IEntity {
     @DocumentId
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @JsonIgnore
     private String Id;
-
-    @Override
-    public String getId() {
-        return Id;
-    }
-
-    @Override
-    public void setId(String Id) {
-        this.Id = Id;
-    }
 
 }

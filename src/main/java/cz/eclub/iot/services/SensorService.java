@@ -5,7 +5,6 @@ import cz.eclub.iot.model.classes.SensorEntity;
 import cz.eclub.iot.utils.Utils;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -36,9 +35,7 @@ public class SensorService {
     public Response getAllSensors() {
         try {
             List<SensorEntity> list = (List<SensorEntity>) sensorDao.getAll();
-            GenericEntity<List<SensorEntity>> entity = new GenericEntity<List<SensorEntity>>(list) {
-            };
-            return Response.status(Response.Status.OK).entity(entity).build();
+            return Response.status(Response.Status.OK).entity(list).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
