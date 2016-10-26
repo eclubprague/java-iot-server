@@ -7,7 +7,6 @@ import cz.eclub.iot.model.classes.SensorEntryEntity;
 import cz.eclub.iot.utils.Utils;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
@@ -64,7 +63,8 @@ public class SensorEntryService {
             if (sensorEntity != null) {
                 Integer limitResults = Integer.parseInt(limit);
                 Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByIdUnitLimit(sensorEntity.getId(), unit, limitResults);
-                return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
+                if (sensorEntryCollection != null)
+                    return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
             }
             return Response.status(Response.Status.NOT_FOUND).build();
         } catch (Exception e) {
@@ -82,7 +82,8 @@ public class SensorEntryService {
             if (sensorEntity != null) {
                 Integer limitResults = Integer.parseInt(limit);
                 Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByIdLimit(sensorEntity.getId(), limitResults);
-                return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
+                if (sensorEntryCollection != null)
+                    return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
             }
             return Response.status(Response.Status.NOT_FOUND).build();
         } catch (Exception e) {

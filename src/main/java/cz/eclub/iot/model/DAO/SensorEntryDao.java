@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SensorEntryDao extends AbstractDao<SensorEntryEntity> {
     public Collection<SensorEntryEntity> getByIdUnitLimit(String id, String unit, Integer limitResults) {
-        Collection<SensorEntryEntity> returnValue = new ArrayList<>();
+        Collection<SensorEntryEntity> returnValue = null;
         try {
             DbUtils.getInstance().getTransactionManager().begin();
             returnValue = getEntityManager().createNativeQuery("{'sensor_Id':'"+id+"','unit':'" + unit + "'}", SensorEntryEntity.class).setMaxResults(limitResults).getResultList();
@@ -31,7 +31,7 @@ public class SensorEntryDao extends AbstractDao<SensorEntryEntity> {
     }
 
     public Collection<SensorEntryEntity> getByIdLimit(String id, Integer limitResults) {
-        Collection<SensorEntryEntity> returnValue = new ArrayList<>();
+        Collection<SensorEntryEntity> returnValue = null;
         try {
             DbUtils.getInstance().getTransactionManager().begin();
             returnValue = getEntityManager().createNativeQuery("{'sensor_Id':'"+id+"'}", SensorEntryEntity.class).setMaxResults(limitResults).getResultList();
