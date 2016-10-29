@@ -60,12 +60,13 @@ public class SensorEntryService {
     public Response getByUnit(@PathParam("uuid") String uuid, @PathParam("limit") String limit, @PathParam("unit") String unit) {
         try {
             SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-            if (sensorEntity != null) {
-                Integer limitResults = Integer.parseInt(limit);
-                Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByIdUnitLimit(sensorEntity.getId(), unit, limitResults);
-                if (sensorEntryCollection != null)
-                    return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
-            }
+
+            Integer limitResults = Integer.parseInt(limit);
+            Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByIdUnitLimit(sensorEntity, unit, limitResults);
+            if (sensorEntryCollection != null)
+                return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
+
+
             return Response.status(Response.Status.NOT_FOUND).build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,12 +80,12 @@ public class SensorEntryService {
     public Response getByUnit(@PathParam("uuid") String uuid, @PathParam("limit") String limit) {
         try {
             SensorEntity sensorEntity = sensorDao.getByUUID(uuid);
-            if (sensorEntity != null) {
-                Integer limitResults = Integer.parseInt(limit);
-                Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByIdLimit(sensorEntity.getId(), limitResults);
-                if (sensorEntryCollection != null)
-                    return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
-            }
+
+            Integer limitResults = Integer.parseInt(limit);
+            Collection<SensorEntryEntity> sensorEntryCollection = sensorEntryDao.getByIdLimit(sensorEntity, limitResults);
+            if (sensorEntryCollection != null)
+                return Response.status(Response.Status.OK).entity(sensorEntryCollection).build();
+
             return Response.status(Response.Status.NOT_FOUND).build();
         } catch (Exception e) {
             e.printStackTrace();

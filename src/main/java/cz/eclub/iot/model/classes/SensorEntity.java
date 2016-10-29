@@ -28,7 +28,7 @@ public class SensorEntity extends AbstractEntity implements Serializable {
 
     private String location;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sensor", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sensor")
     private Collection<SensorEntryEntity> sensorEntries;
 
 }
